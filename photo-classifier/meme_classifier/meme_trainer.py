@@ -9,6 +9,8 @@ import numpy as np
 
 import os
 
+from sklearn.pipeline import Pipeline
+
 memes_path_2 = os.path.join(os.getcwd(), 'data', 'valid', 'valid')
 
 nonmemes_path = os.path.join(os.getcwd(), 'data', 'InstaNY100K', 'img_resized', 'newyork')
@@ -30,7 +32,7 @@ y_train_reshuffled = y_train[new_random_train_indices]
 def initialize_meme_classifier():
     model = Sequential()
     # layer 1
-    model.add(layers.Conv2D(16, (8,8), input_shape=(100,100,1), 
+    model.add(layers.Conv2D(32, (8,8), input_shape=(100,100,1), 
                             padding='same', activation='relu'))
     model.add(layers.Conv2D(16, (4,4), input_shape=(100,100,1), 
                             padding='same', activation='relu'))
@@ -56,6 +58,36 @@ def initialize_meme_classifier():
                   metrics=['accuracy']
                  )
     return model   
+
+def create_meme_processing_pipe():
+
+    model_pipe = Sequential([
+    layers.Reshape((100, 100, 1), input_shape=(100, 100)),
+    layers.experimental.preprocessing.Rescaling(scale=1./255.),
+    layers.Conv2D(32, (3,3), padding='same', activation="relu"),
+    layers.MaxPool2D(pool_size=(2,2)),
+    layers.Conv2D(64, (3,3), padding='same', activation="relu"),
+    layers.MaxPool2D(pool_size=(2,2)),
+    layers.Conv2D(128,(3,3),activation='relu')
+    layers.MaxPool2D(4,4)
+    layers.Flatten(),
+    layers.Dense(64,activation='relu'),
+    layers.Dropout(0.5),
+    layers.Dense(16,activation='relu'),
+    layers.Dropout(0.3),
+    layers.Dense(1, activation='sigmoid')
+    ])
+
+     model.compile(loss='binary_crossentropy',
+                  optimizer='adam',
+                  metrics=['accuracy']
+                 )
+    return model
+
+    
+
+
+
 
 model = initialize_meme_classifier()
 
