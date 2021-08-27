@@ -74,7 +74,7 @@ def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'
     else:
         return X
 
-def get_image_dict(path, grayscale = True, ):
+def get_image_dict(path, grayscale = True):
     
     img_dict = {file:0 for file in os.listdir(path)}
 
