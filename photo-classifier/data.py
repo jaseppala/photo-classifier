@@ -6,6 +6,11 @@ from google.cloud import storage
 from zipfile import ZipFile
 
 def get_data_gcp(GCP_FILE_NAME):
+    """downloads a zip file into the current working directory and extracts its contents into the raw data folder
+
+    Args:
+        GCP_FILE_NAME ([string]): [Name of the zip file]
+    """    
     client = storage.Client(project = 'le-wagon-ds-bootcamp-318909')
     bucket = client.get_bucket('lewagon-photo-classifier')
     blob = bucket.get_blob(GCP_FILE_NAME)
@@ -15,7 +20,7 @@ def get_data_gcp(GCP_FILE_NAME):
 
         zipObj.extractall('../raw_data')
 
-def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'):
+def load_data(path, how = 'one', grayscale = True, size = (100,100), asarray = True, n_img = 'all'):
     """loads all images into an array
 
     path: path to the folder in which the images or folders full of images are
@@ -38,7 +43,7 @@ def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'
             img = cv2.imread(os.path.join(path, file))                  # load the image
             if grayscale:
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                res = cv2.resize(gray, dsize=(100, 100))             # make it RGB (cv2 uses BGR)
+                res = cv2.resize(gray, dsize=size)             # make it RGB (cv2 uses BGR)
                 X.append(res)
             else:
                 clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -58,7 +63,7 @@ def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'
                     img = cv2.imread(os.path.join(path, folder, file))                  # load the image
                     if grayscale:
                         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)             # make it RGB (cv2 uses BGR)
-                        res = cv2.resize(gray, dsize=(100, 100)) 
+                        res = cv2.resize(gray, dsize=(size) 
                         X.append(res)
                     else:
                         clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -77,18 +82,32 @@ def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'
     else:
         return X
 
-def get_image_dict(path, grayscale = True):
-    img_dict = {file:0 for file in os.listdir(path)}
+picture_file_types = ('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif', '.heic')
+
+def get_image_dict(path, grayscale = True, size = (100, 100)):
+    """loads all images into a dictionary with file names as keys
+
+    Args:
+        path (string): the system path from which to load the images
+        grayscale (bool, optional): load images as grayscale (True) or in colour (False). Defaults to True.
+        size (tuple, optional): Resize images to the size expected by the model. Defaults to (100, 100).
+
+    Returns:
+        A dictionary of images as np.arrays with the file names as keys
+    """    
+     #instantiating a dictionary with picture file names as keys
+    img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(picture_file_types)}}  
 
     for file in os.listdir(path): 
-        if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):                                    # get every file in the folder
+        if file.lower().endswith(picture_file_types):                              #get every image file in folder
             img = cv2.imread(os.path.join(path, file))                  # load the image
             if grayscale:
-                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                res = cv2.resize(gray, dsize=(100, 100))             # make it RGB (cv2 uses BGR)
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)            #grayscale
+                res = cv2.resize(gray, dsize=size)                    #resize
                 img_dict[file] = res
             else:
                 clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                res = cv2.resize(gray, dsize=size)
                 img_dict[file] = clr
 
     return img_dict
