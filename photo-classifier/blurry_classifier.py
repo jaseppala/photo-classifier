@@ -9,7 +9,7 @@ pipeline = models.load_model('blur_detection_model')
 
 path = os.path.join('..', 'raw_data', 'test')
 
-img_dict = {file:0 for file in os.listdir(path)}
+img_dict = {file:0 for file in os.listdir(path) if not os.path.isdir(os.path.join(path, file))}
 
 for file in os.listdir(path): 
     if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):                                    # get every file in the folder
