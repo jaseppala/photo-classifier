@@ -63,7 +63,7 @@ def load_data(path, how = 'one', grayscale = True, size = (100,100), asarray = T
                     img = cv2.imread(os.path.join(path, folder, file))                  # load the image
                     if grayscale:
                         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)             # make it RGB (cv2 uses BGR)
-                        res = cv2.resize(gray, dsize=(size) 
+                        res = cv2.resize(gray, dsize=size) 
                         X.append(res)
                     else:
                         clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -96,7 +96,7 @@ def get_image_dict(path, grayscale = True, size = (100, 100)):
         A dictionary of images as np.arrays with the file names as keys
     """    
      #instantiating a dictionary with picture file names as keys
-    img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(picture_file_types)}}  
+    img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(picture_file_types)}  
 
     for file in os.listdir(path): 
         if file.lower().endswith(picture_file_types):                              #get every image file in folder

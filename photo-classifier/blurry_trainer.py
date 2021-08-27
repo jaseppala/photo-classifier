@@ -53,6 +53,10 @@ y2 = np.array([[1] for x in range(350)])
 y_train = np.concatenate((y1[:300], y2[:300]))
 y_test = np.concatenate((y1[300:], y2[300:]))
 
+new_random_train_indices = np.random.permutation(len(X_train))
+X_train_reshuffled = X_train[new_random_train_indices]
+y_train_reshuffled = y_train[new_random_train_indices]
+
 es = EarlyStopping(patience = 10, restore_best_weights = True)
 history = pipe.fit(X_train, y_train, validation_split = 0.2,
           batch_size=32, # Too small --> no generalization. Too large --> compute slowly
@@ -62,4 +66,4 @@ history = pipe.fit(X_train, y_train, validation_split = 0.2,
          )
 
 
-pipe.save('blur_detection_model')
+pipe.save('blur_detection_model.h5')
