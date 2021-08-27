@@ -13,7 +13,7 @@ def get_data_gcp(GCP_FILE_NAME):
 
         zipObj.extractall('../raw_data')
 
-  def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'):
+def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'):
     """loads all images into an array
 
     path: path to the folder in which the images or folders full of images are
