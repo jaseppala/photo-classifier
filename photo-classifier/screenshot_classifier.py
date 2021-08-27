@@ -11,16 +11,18 @@ if __name__ == '__main__':
 
     path = os.path.join('..', 'raw_data', 'test')
 
-    img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))}
+
+    img_dict = get_image_dict(path, size = (150,150))
+    """     img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif'))}
 
     for file in os.listdir(path):
         if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):                                    # get every file in the folder
             img = cv2.imread(os.path.join(path, file))                  # load the image
             gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
             res = cv2.resize(gray, dsize=(150, 150))
-            res = res / 255.
-            res = np.expand_dims(res, axis = -1)             # make it RGB (cv2 uses BGR)
-            img_dict[file] = res
+            #res = res / 255.
+            #res = np.expand_dims(res, axis = -1)             # make it RGB (cv2 uses BGR)
+            img_dict[file] = res """
 
     screenshots_dump = os.path.join(path,'screenshots')
 

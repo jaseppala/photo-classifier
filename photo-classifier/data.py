@@ -10,12 +10,12 @@ def get_data_gcp(GCP_FILE_NAME):
 
     Args:
         GCP_FILE_NAME ([string]): [Name of the zip file]
-    """    
+    """
     client = storage.Client(project = 'le-wagon-ds-bootcamp-318909')
     bucket = client.get_bucket('lewagon-photo-classifier')
     blob = bucket.get_blob(GCP_FILE_NAME)
     blob.download_to_filename(os.path.join(os.getcwd(), GCP_FILE_NAME))
-    
+
     with ZipFile(os.path.join(os.getcwd(), GCP_FILE_NAME), 'r') as zipObj:
 
         zipObj.extractall('../raw_data')
@@ -32,7 +32,7 @@ def load_data(path, how = 'one', grayscale = True, size = (100,100), asarray = T
     Returns:
         np.array of n_img pictures
         or list of n_img pictures if asarray = False
-    """    
+    """
     X = []
 
     if type(n_img) == int:
@@ -58,17 +58,17 @@ def load_data(path, how = 'one', grayscale = True, size = (100,100), asarray = T
 
     if how == 'many':
         for folder in os.listdir(path):
-            if isdir(os.path.join(path, folder)): 
+            if isdir(os.path.join(path, folder)):
                 for file in os.listdir(os.path.join(path, folder)):                              # get every file in the folder
                     img = cv2.imread(os.path.join(path, folder, file))                  # load the image
                     if grayscale:
                         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)             # make it RGB (cv2 uses BGR)
-                        res = cv2.resize(gray, dsize=(size) 
+                        res = cv2.resize(gray, dsize=size)
                         X.append(res)
                     else:
                         clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                         X.append(img)
-                    
+
                     if type(n_img) == int:
                         i += 1
                         if i == n_img:
@@ -94,11 +94,11 @@ def get_image_dict(path, grayscale = True, size = (100, 100)):
 
     Returns:
         A dictionary of images as np.arrays with the file names as keys
-    """    
+    """
      #instantiating a dictionary with picture file names as keys
-    img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(picture_file_types)}}  
+    img_dict = {file:0 for file in os.listdir(path) if file.lower().endswith(picture_file_types)}
 
-    for file in os.listdir(path): 
+    for file in os.listdir(path):
         if file.lower().endswith(picture_file_types):                              #get every image file in folder
             img = cv2.imread(os.path.join(path, file))                  # load the image
             if grayscale:
@@ -111,5 +111,3 @@ def get_image_dict(path, grayscale = True, size = (100, 100)):
                 img_dict[file] = clr
 
     return img_dict
-                
-        
