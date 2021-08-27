@@ -78,7 +78,7 @@ def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'
         return X
 
 def get_image_dict(path, grayscale = True):
-    img_dict = {file:0 for file in os.listdir(path)}
+    img_dict = {file:0 for file in os.listdir(path) if not os.path.isdir(os.path.join(path, file))}
 
     for file in os.listdir(path): 
         if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):                                    # get every file in the folder
