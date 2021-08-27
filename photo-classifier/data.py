@@ -78,8 +78,6 @@ def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'
         return X
 
 def get_image_dict(path, grayscale = True):
-
-    
     img_dict = {file:0 for file in os.listdir(path)}
 
     for file in os.listdir(path): 
@@ -88,7 +86,7 @@ def get_image_dict(path, grayscale = True):
             if grayscale:
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
                 res = cv2.resize(gray, dsize=(100, 100))             # make it RGB (cv2 uses BGR)
-                img_dict[file] = gray
+                img_dict[file] = res
             else:
                 clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 img_dict[file] = clr
