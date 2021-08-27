@@ -10,7 +10,7 @@ def get_data_gcp(GCP_FILE_NAME):
     blob.download_to_filename(os.path.join(os.getcwd(), GCP_FILE_NAME))
     
     with ZipFile(os.path.join(os.getcwd(), GCP_FILE_NAME), 'r') as zipObj:
-        zipObj.extractall('data')
+        zipObj.extractall('../raw_data')
 
 def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'):
     """loads all images into an array
