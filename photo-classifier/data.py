@@ -10,9 +10,10 @@ def get_data_gcp(GCP_FILE_NAME):
     blob.download_to_filename(os.path.join(os.getcwd(), GCP_FILE_NAME))
     
     with ZipFile(os.path.join(os.getcwd(), GCP_FILE_NAME), 'r') as zipObj:
-        zipObj.extractall('data')
 
-def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'):
+        zipObj.extractall('../raw_data')
+
+  def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'):
     """loads all images into an array
 
     path: path to the folder in which the images or folders full of images are
@@ -74,20 +75,21 @@ def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'
     else:
         return X
 
-def get_image_dict(path, grayscale = True, ):
+def get_image_dict(path, grayscale = True):
+
     
     img_dict = {file:0 for file in os.listdir(path)}
 
     for file in os.listdir(path): 
         if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):                                    # get every file in the folder
             img = cv2.imread(os.path.join(path, file))                  # load the image
-                if grayscale:
-                    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    res = cv2.resize(gray, dsize=(100, 100))             # make it RGB (cv2 uses BGR)
-                    img_dict[file] = gray
-                else:
-                    clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                    img_dict[file] = clr
+            if grayscale:
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                res = cv2.resize(gray, dsize=(100, 100))             # make it RGB (cv2 uses BGR)
+                img_dict[file] = gray
+            else:
+                clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                img_dict[file] = clr
 
     return img_dict
                 
