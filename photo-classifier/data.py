@@ -3,6 +3,8 @@ from os.path import isdir
 import cv2
 import numpy as np
 
+#test
+
 def get_data_gcp(GCP_FILE_NAME):
     client = storage.Client(project = 'le-wagon-ds-bootcamp-318909')
     bucket = client.get_bucket('lewagon-photo-classifier')
