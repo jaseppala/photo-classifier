@@ -20,7 +20,7 @@ def get_data_gcp(GCP_FILE_NAME):
 
         zipObj.extractall('../raw_data')
 
-def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'):
+def load_data(path, how = 'one', grayscale = True, size = (100,100), asarray = True, n_img = 'all'):
     """loads all images into an array
 
     path: path to the folder in which the images or folders full of images are
@@ -43,7 +43,7 @@ def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'
             img = cv2.imread(os.path.join(path, file))                  # load the image
             if grayscale:
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                res = cv2.resize(gray, dsize=(100, 100))             # make it RGB (cv2 uses BGR)
+                res = cv2.resize(gray, dsize=size)             # make it RGB (cv2 uses BGR)
                 X.append(res)
             else:
                 clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -63,7 +63,7 @@ def load_data(path, how = 'one', grayscale = True, asarray = True, n_img = 'all'
                     img = cv2.imread(os.path.join(path, folder, file))                  # load the image
                     if grayscale:
                         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)             # make it RGB (cv2 uses BGR)
-                        res = cv2.resize(gray, dsize=(100, 100)) 
+                        res = cv2.resize(gray, dsize=(size) 
                         X.append(res)
                     else:
                         clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -103,11 +103,11 @@ def get_image_dict(path, grayscale = True, size = (100, 100)):
             img = cv2.imread(os.path.join(path, file))                  # load the image
             if grayscale:
                 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)            #grayscale
-                res = cv2.resize(gray, dsize=(size))                    #resize
+                res = cv2.resize(gray, dsize=size)                    #resize
                 img_dict[file] = res
             else:
                 clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                res = cv2.resize(gray, dsize=(size))
+                res = cv2.resize(gray, dsize=size)
                 img_dict[file] = clr
 
     return img_dict
