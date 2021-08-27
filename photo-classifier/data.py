@@ -81,13 +81,13 @@ def get_image_dict(path, grayscale = True):
     for file in os.listdir(path): 
         if file.lower().endswith(('.png', '.jpg', '.jpeg', '.tiff', '.bmp', '.gif')):                                    # get every file in the folder
             img = cv2.imread(os.path.join(path, file))                  # load the image
-                if grayscale:
-                    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                    res = cv2.resize(gray, dsize=(100, 100))             # make it RGB (cv2 uses BGR)
-                    img_dict[file] = gray
-                else:
-                    clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                    img_dict[file] = clr
+            if grayscale:
+                gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                res = cv2.resize(gray, dsize=(100, 100))             # make it RGB (cv2 uses BGR)
+                img_dict[file] = gray
+            else:
+                clr = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                img_dict[file] = clr
 
     return img_dict
                 
